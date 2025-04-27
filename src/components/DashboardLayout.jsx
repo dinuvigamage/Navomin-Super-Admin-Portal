@@ -10,7 +10,7 @@ const DashboardLayout = () => {
       </div>
       <div className="flex-grow-1 d-flex flex-column">
         <Header />
-        <main className="p-4 bg-light" style={{ minHeight: "100vh" }}>
+        <main className="px-4 bg-white" style={{ maxHeight: "100vh" }}>
           <Outlet />
         </main>
       </div>

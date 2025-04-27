@@ -1,15 +1,15 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import DashboardLayout from "./components/Dashboardlayout";
-import Home from "./pages/Home";
-// import DashboardPage from "./pages/DashboardPage.jsx";
 import Signup from "./pages/CreditProfile.jsx";
 import NormalOrdersBillingPage from "./pages/NormalOrdersBillingPage.jsx";
 import PreOrder from "./pages/PreOrder.jsx";
-import Billing from "./pages/BillingPage.jsx";
 import NormalOrder from "./pages/NormalOrder.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import CreditProfile from "./pages/CreditProfile.jsx";
 import PendingPayment from "./pages/PendingPayment.jsx";
+import Billing from "./pages/Billing.jsx";
+import Inventory from "./pages/Inventory.jsx";
+import Login from "./pages/Login.jsx";
 
 const App = () => {
   return (
@@ -26,7 +26,8 @@ const App = () => {
             path="/normalOrderBilling"
             element={<NormalOrdersBillingPage />}
           />
-          <Route path="home" element={<Home />} />
+          <Route path="inventory" element={<Inventory />} />
+          <Route path="login" element={<Login />} />
         </Route>
       </Routes>
     </Router>
