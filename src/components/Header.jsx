@@ -1,8 +1,9 @@
 import { FiLogOut } from "react-icons/fi";
 import GlobalVars from "../globalVars";
+import { useUser } from "../userContext";
 
 const Header = () => {
-  const [user, logoutUser] = GlobalVars();
+  const {user, logoutUser} = useUser(); // Import global user state and functions
 
   const handleLogout = () => {
     logoutUser(); // Call the logout function from GlobalVars

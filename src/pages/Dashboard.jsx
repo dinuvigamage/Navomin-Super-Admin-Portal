@@ -58,7 +58,6 @@ const Dashboard = () => {
     const fetchProducts = async () => {
       getProducts()
         .then((response) => {
-          console.log("Products:", response);
           setProducts(response);
         })
         .catch((error) => {
@@ -66,7 +65,6 @@ const Dashboard = () => {
         });
       getProductSize()
         .then((response) => {
-          console.log("Sizes:", response);
           setSizes(response);
         })
         .catch((error) => {
@@ -81,28 +79,6 @@ const Dashboard = () => {
       {/* Main Content */}
       <div className="flex-grow-1 p-4">
         <h1 className="mb-4">Dashboard</h1>
-        {/* Top Navigation Tabs */}
-        {/* <div className="d-flex justify-content-between align-items-center mb-4">
-          <div className="d-flex gap-4">
-            {topTabs.map((tab) => (
-              <span
-                key={tab}
-                className={`pb-1 ${
-                  activeTab === tab
-                    ? "fw-bold text-primary border-bottom border-primary"
-                    : "text-muted"
-                }`}
-                style={{ cursor: "pointer" }}
-                onClick={() => setActiveTab(tab)}
-              >
-                {tab}
-              </span>
-            ))}
-          </div>
-        </div> */}
-
-        {/* Dashboard Content (example) */}
-        {/* {activeTab === "Dashboard" && ( */}
         <div className="row g-4">
           {/* Total Sales */}
           <div className="col-md-4">
@@ -128,23 +104,6 @@ const Dashboard = () => {
               <h3 className="mt-4">Rs. {preOrderSales}</h3>
             </div>
           </div>
-
-          {/* Outstanding Credit */}
-          {/* <div className="col-md-8">
-            <div className="bg-white shadow-sm rounded p-4 h-100">
-              <h5 className="fw-bold mb-3">Outstanding Credit</h5>
-              <div className="row row-cols-2 g-3">
-                {["Siripala", "Amal", "Chama", "Kamal"].map((name, i) => (
-                  <div key={i} className="col">
-                    <div className="bg-light rounded p-3 h-100">
-                      <strong>{name}</strong>
-                      <div className="text-muted">Amount Due: Rs.560</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div> */}
 
           {/* Low Stock */}
           <div className="col-12">
@@ -172,17 +131,6 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        {/* )} */}
-
-        {/* Placeholder content for other tabs */}
-        {/* {activeTab !== "Dashboard" && (
-          <div className="bg-white rounded p-5 text-center shadow-sm">
-            <h4>{activeTab} Page</h4>
-            <p className="text-muted">
-              This is where {activeTab} content will go.
-            </p>
-          </div>
-        )} */}
       </div>
     </div>
   );

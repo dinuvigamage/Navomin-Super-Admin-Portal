@@ -6,12 +6,13 @@ import { userLogin } from "../apis/user";
 import GlobalVars from "../globalVars";
 import { useNavigate } from "react-router-dom";
 import { ownerLogin } from "../apis/owner";
+import { useUser } from "../userContext.jsx"; // Import the useUser hook
 
 const Login = () => {
   const [email, setEmail] = useState(undefined);
   const [password, setPassword] = useState(undefined);
 
-  const [user, updateUser] = GlobalVars();
+  const { user, updateUser, logoutUser } = useUser();
 
   const navigate = useNavigate();
 

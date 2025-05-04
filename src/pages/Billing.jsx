@@ -1,12 +1,3 @@
-import {
-  FiGrid,
-  FiFileText,
-  FiShoppingCart,
-  FiMessageSquare,
-  FiArchive,
-  FiUsers,
-  FiLogOut,
-} from "react-icons/fi";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getOrder } from "../apis/order";
@@ -25,30 +16,13 @@ const Billing = () => {
 
   const billFromOrderList = billNumberFromOrder !== undefined ? true : false;
 
-  console.log("Bill Number:", billNumber);
-  console.log("Bill From Order List:", billFromOrderList);
-
   const [orderType, setOrderType] = useState("Normal Order");
   const [orders, setOrders] = useState([]);
   const [users, setUsers] = useState([]);
   const [orderItems, setOrderItems] = useState([]);
   const [products, setProducts] = useState([]);
   const [sizes, setSizes] = useState([]);
-
-  const [items, setItems] = useState([
-    { code: "1234", name: "Noodles", qty: 1, unitPrice: 345.0 },
-    { code: "1234", name: "Pasta", qty: 2, unitPrice: 345.0 },
-    { code: "1234", name: "Bread", qty: 3, unitPrice: 345.0 },
-  ]);
   const [received, setReceived] = useState(2350.0);
-
-  // const totalItems = items.length;
-  // const totalQty = items.reduce((sum, item) => sum + item.qty, 0);
-  // const totalPrice = items.reduce(
-  //   (sum, item) => sum + item.qty * item.unitPrice,
-  //   0
-  // );
-  // const balance = received - totalPrice;
 
   const totalItems = orderItems.length;
   const totalQty = orderItems.reduce((sum, item) => sum + item.Quantity, 0);
@@ -69,7 +43,6 @@ const Billing = () => {
     const fetchUsers = async () => {
       getUser()
         .then((response) => {
-          console.log("Users:", response);
           setUsers(response);
         })
         .catch((error) => {
@@ -83,7 +56,6 @@ const Billing = () => {
     if (orderType === "Normal Order") {
       getOrder()
         .then((response) => {
-          console.log("Orders:", response);
           setOrders(response);
         })
         .catch((error) => {
@@ -92,7 +64,6 @@ const Billing = () => {
     } else if (orderType === "Pre Order") {
       getPreOrder()
         .then((response) => {
-          console.log("Pre Orders:", response);
           setOrders(response);
         })
         .catch((error) => {
@@ -105,7 +76,6 @@ const Billing = () => {
     const fetchProducts = async () => {
       getProducts()
         .then((response) => {
-          console.log("Products:", response);
           setProducts(response);
         })
         .catch((error) => {
@@ -115,7 +85,6 @@ const Billing = () => {
     const fetchSizes = async () => {
       getProductSize()
         .then((response) => {
-          console.log("Sizes:", response);
           setSizes(response);
         })
         .catch((error) => {
@@ -131,15 +100,7 @@ const Billing = () => {
     if (orderType === "Normal Order") {
       getOrderItemByOrderId(billNumber)
         .then((response) => {
-          console.log("Order Items:", response);
           setOrderItems(response);
-          // const newItems = response.map((item) => ({
-          //   code: item.itemCode,
-          //   name: item.itemName,
-          //   qty: item.qty,
-          //   unitPrice: item.unitPrice,
-          // }));
-          // setItems(newItems);
         })
         .catch((error) => {
           console.error("Error fetching order items:", error);
@@ -148,15 +109,7 @@ const Billing = () => {
     if (orderType === "Pre Order") {
       getPreOrderItemByPreOrderId(billNumber)
         .then((response) => {
-          console.log("Pre Order Items:", response);
           setOrderItems(response);
-          // const newItems = response.map((item) => ({
-          //   code: item.itemCode,
-          //   name: item.itemName,
-          //   qty: item.qty,
-          //   unitPrice: item.unitPrice,
-          // }));
-          // setItems(newItems);
         })
         .catch((error) => {
           console.error("Error fetching pre order items:", error);
@@ -184,14 +137,6 @@ const Billing = () => {
         {/* Billing Form */}
         <div className="mb-4">
           <div className="d-flex mb-2" style={{ gap: "3rem" }}>
-            {/* <div className="me-4">
-              <label>Date:</label>
-              <input type="date" className="form-control" defaultValue="2024-08-08" />
-            </div>
-            <div className="me-4">
-              <label>Time:</label>
-              <input type="text" className="form-control" value="11:24 a.m." disabled />
-            </div> */}
             <div>
               <label>Order Type</label>
               <select
@@ -221,29 +166,10 @@ const Billing = () => {
               Search
             </button>
           </div>
-
-          {/* <div className="d-flex mb-3">
-            <input type="text" placeholder="Item code" className="form-control me-2" />
-            <select className="form-select me-2">
-              <option>noodles</option>
-              <option>pasta</option>
-              <option>bread</option>
-            </select>
-            <input type="number" placeholder="Qty" className="form-control me-2" />
-            <input type="text" placeholder="Price/unit" className="form-control me-2" />
-            <input type="text" placeholder="Price" className="form-control me-2" />
-          </div>
-
-          <div className="mb-3">
-            <button className="btn btn-primary me-2">Add</button>
-            <button className="btn btn-outline-primary me-2">Edit item</button>
-            <button className="btn btn-outline-danger">Remove</button>
-          </div> */}
         </div>
 
         <h5 className="fw-bold my-2">Items</h5>
         {/* Table */}
-        {/* <div className="table-responsive"> */}
         <div
           className="pb-2 border-1 rounded-3 shadow-sm bg-black"
           style={{
@@ -363,13 +289,6 @@ const Billing = () => {
               <button className="btn btn-outline-secondary mb-2">
                 Print Bill
               </button>
-              {/* <button className="btn btn-outline-primary mb-2">Finish</button>
-            <div>
-              <button className="btn btn-outline-info me-2">
-                Add to credits
-              </button>
-              <button className="btn btn-outline-danger">Cancel bill</button>
-            </div> */}
             </div>
           </div>
 

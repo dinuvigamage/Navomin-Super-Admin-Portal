@@ -54,7 +54,6 @@ const Inventory = () => {
     const fetchProductCategories = async () => {
       getProductCategory()
         .then((response) => {
-          console.log("Fetched product categories:", response);
           setProductCategory(response);
         })
         .catch((error) => {
@@ -67,7 +66,6 @@ const Inventory = () => {
   const searchStock = async () => {
     getStock(selectedProductCategory)
       .then((response) => {
-        console.log("Fetched stock:", response);
         setProducts(response);
       })
       .catch((error) => {
@@ -75,7 +73,6 @@ const Inventory = () => {
       });
     getProductSize()
       .then((response) => {
-        console.log("Fetched product size:", response);
         setProductSize(response);
       })
       .catch((error) => {
@@ -100,7 +97,6 @@ const Inventory = () => {
     }
     addProduct(addingProduct)
       .then((response) => {
-        console.log("Product added successfully:", response);
         alert("Product added successfully!");
         // Reset the form after successful submission
         setAddingProduct({
@@ -121,7 +117,6 @@ const Inventory = () => {
 
     addSize(addingProduct)
       .then((response) => {
-        console.log("Size added successfully:", response);
         alert("Size added successfully!");
       })
       .catch((error) => {
@@ -131,20 +126,17 @@ const Inventory = () => {
 
     addImage(addingProduct)
       .then((response) => {
-        console.log("Image added successfully:", response);
         alert("Image added successfully!");
       })
       .catch((error) => {
         console.error("Error adding image:", error);
         alert("Error adding image. Please try again.");
       });
-    console.log("Product submitted:", addingProduct);
   };
 
   const submitRemoveProduct = async (Size_ID, Product_ID) => {
     removeProduct(Product_ID)
       .then((response) => {
-        console.log("Product removed successfully:", response);
         alert("Stock Cleared and product removed successfully!");
       })
       .catch((error) => {
@@ -153,7 +145,6 @@ const Inventory = () => {
       });
     removeSize(Size_ID)
       .then((response) => {
-        console.log("Size removed successfully:", response);
         // alert("Stock Cleared and product removed successfully!");
       })
       .catch((error) => {
@@ -162,7 +153,6 @@ const Inventory = () => {
       });
     removeImage(Product_ID)
       .then((response) => {
-        console.log("Image removed successfully:", response);
         // alert("Image removed successfully!");
       })
       .catch((error) => {
@@ -176,9 +166,7 @@ const Inventory = () => {
   const handleStockChange = () => {
     filteredProducts.forEach((product) => {
       updateStock(product.Size_ID, parseInt(product.Stock))
-        .then((response) => {
-          console.log("Stock updated successfully:", response);
-        })
+        .then((response) => {})
         .catch((error) => {
           console.error("Error updating stock:", error);
           alert("Error updating stock. Please try again.");
@@ -192,19 +180,10 @@ const Inventory = () => {
     if (!Array.isArray(products)) return;
     if (!Array.isArray(productSize)) return;
     const filteredProducts = productSize.filter((size) =>
-      products.some(
-        (product) => product.Product_ID == size.Product_ID
-        //   && product.ProductCategory_ID == selectedProductCategory
-      )
+      products.some((product) => product.Product_ID == size.Product_ID)
     );
-
-    console.log("Filtered products:", filteredProducts);
     setFilteredProducts(filteredProducts);
   }, [products, productSize, selectedProductCategory]);
-
-  useEffect(() => {
-    console.log("addProduct:", addingProduct);
-  }, [addingProduct]);
 
   useEffect(() => {
     // change the addProduct.ProductCategory_ID when the selectedProductCategory changes
@@ -237,13 +216,8 @@ const Inventory = () => {
       </div>
       <h1 className="mt-2">Inventory</h1>
       <div className="d-flex flex-row justify-content-between align-items-center mb-2 card p-3">
-        {/* <div className="row-md-12">
-          <div className="card mb-4"> */}
-        {/* category select drop down list */}
-
         <div
           className="d-flex justify-content-between align-items-center w-45"
-          // flex direction="row"
           style={{ display: "flex", flexDirection: "column" }}
         >
           <h5 className="mb-2">Select Category</h5>
@@ -288,9 +262,6 @@ const Inventory = () => {
                       {cat.ProductCategory_Name}
                     </option>
                   )
-                // <option key={cat.Product_Category_ID} value={cat.Product_Category_ID}>
-                //   {cat.Product_Category_Name}
-                // </option>
               )}
           </select>
         </div>
@@ -523,24 +494,6 @@ const Inventory = () => {
                 >
                   Add Item
                 </button>
-                {/* <button
-                  type="reset"
-                  className="btn btn-secondary ms-2"
-                  onClick={() => {
-                    setAddProduct({
-                      Product_ID: undefined,
-                      ProductCategory_ID: undefined,
-                      Product_Name: undefined,
-                      Product_Description: "",
-                      Size: undefined,
-                      Stock: "",
-                      Price: undefined,
-                      Image_Link: undefined,
-                    });
-                  }}
-                >
-                  Reset
-                </button> */}
                 <button
                   type="button"
                   className="btn btn-danger ms-2"

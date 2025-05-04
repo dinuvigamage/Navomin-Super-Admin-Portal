@@ -8,7 +8,11 @@ import {
   FiUsers,
   FiLogOut,
 } from "react-icons/fi";
-import { getPreOrder, updatePreOrderStatus } from "../apis/order";
+import {
+  getPreOrder,
+  updateEstiPrice,
+  updatePreOrderStatus,
+} from "../apis/order";
 import { getUser } from "../apis/user";
 
 // const preOrders = [
@@ -55,6 +59,9 @@ const PreOrder = () => {
   const [users, setUsers] = useState([]);
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+
+  const [updatingPrice, setUpdatingPrice] = useState([]);
+  // updateingPrice = [{Pre_Order_ID = 1, Estimated_Total = 125.23}, ...]
 
   useEffect(() => {
     // Simulate fetching data from an API
@@ -115,13 +122,8 @@ const PreOrder = () => {
   }, [searchTerm, preOrders, users]);
 
   const handleStatusChange = (orderId, newStatus) => {
-    // Handle status change logic here (e.g., update the order status in the database)
-    console.log(`Order ID: ${orderId}, New Status: ${newStatus}`);
     updatePreOrderStatus(orderId, newStatus)
       .then((response) => {
-        console.log("Status updated successfully:", response);
-
-        // Optionally, you can refresh the pre-orders list after updating the status
         getPreOrder()
           .then((response) => {
             setPreOrders(response);
@@ -133,6 +135,28 @@ const PreOrder = () => {
       .catch((error) => {
         console.error("Error updating status:", error);
       });
+  };
+
+  const handlePriceUpdate = (orderId, newPrice) => {
+    // Add your API call to update the price here
+    // update the EstimatedPrice in updatingPrice list
+    setUpdatingPrice((prev) => {
+      const existingPrice = prev.find(
+        (price) => price.Pre_Order_ID === orderId
+      );
+      if (existingPrice) {
+        return prev.map((price) =>
+          price.Pre_Order_ID === orderId
+            ? { ...price, Estimated_Total: newPrice }
+            : price
+        );
+      } else {
+        return [...prev, { Pre_Order_ID: orderId, Estimated_Total: newPrice }];
+      }
+    });
+    updateEstiPrice(orderId, newPrice).catch((error) => {
+      console.error("Error updating price:", error);
+    });
   };
 
   return (
@@ -201,9 +225,25 @@ const PreOrder = () => {
                       <td>
                         <div className="input-group">
                           <span className="input-group-text">Rs</span>
-                          <span className="form-control">
+                          {/* <span className="form-control">
                             {order.Estimated_Total}
-                          </span>
+                          </span> */}
+                          <input
+                            type="number"
+                            className="form-control"
+                            value={
+                              updatingPrice.find(
+                                (price) =>
+                                  price.Pre_Order_ID === order.Pre_Order_ID
+                              )?.Estimated_Total || order.Estimated_Total
+                            }
+                            onChange={(e) =>
+                              handlePriceUpdate(
+                                order.Pre_Order_ID,
+                                e.target.value
+                              )
+                            }
+                          />
                         </div>
                       </td>
                       <td>
@@ -240,17 +280,14 @@ const PreOrder = () => {
                           <option value="" disabled selected>
                             Select Status
                           </option>
-                          <option value="Pending">Pending</option>
                           <option value="Confirmed">Confirmed</option>
                           <option value="Preparing">Preparing</option>
                           <option value="Ready for Pickup">
                             Ready for Pickup
                           </option>
+                          <option value="Rejected">Rejected</option>
                         </select>
                       </td>
-                      {/* <td>
-                        <button className="btn btn-success">Send</button>
-                      </td> */}
                     </tr>
                   ))}
               </tbody>

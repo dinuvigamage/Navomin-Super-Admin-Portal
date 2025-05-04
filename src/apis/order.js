@@ -124,3 +124,15 @@ export const updatePreOrderStatus = async (preOrderId, status) => {
     throw error;
   }
 };
+
+export const updateEstiPrice = async (preOrderId, price) => {
+  try {
+    const response = await axios.put(`${API_URL}/preOrder/estiPrice/${preOrderId}`, {
+      Estimated_Total: price,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error updating estimated price:", error);
+    throw error;
+  }
+}

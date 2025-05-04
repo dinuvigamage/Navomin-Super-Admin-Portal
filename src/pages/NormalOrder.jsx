@@ -14,51 +14,6 @@ import { FaUserFriends } from "react-icons/fa";
 import { getOrder, updateOrderStatus } from "../apis/order";
 import { getUser } from "../apis/user";
 
-// const ordersData = [
-//   {
-//     orderNumber: "001",
-//     customer: "John Doe",
-//     status: "Pending",
-//     pickup: "2023-10-10",
-//   },
-//   {
-//     orderNumber: "002",
-//     customer: "Jane Smith",
-//     status: "Preparing",
-//     pickup: "2023-10-11",
-//   },
-//   {
-//     orderNumber: "003",
-//     customer: "Michael Johnson",
-//     status: "Ready for Pickup",
-//     pickup: "2023-10-12",
-//   },
-//   {
-//     orderNumber: "004",
-//     customer: "Emily Brown",
-//     status: "Pending",
-//     pickup: "2023-10-13",
-//   },
-//   {
-//     orderNumber: "005",
-//     customer: "David Wilson",
-//     status: "Preparing",
-//     pickup: "2023-10-14",
-//   },
-//   {
-//     orderNumber: "006",
-//     customer: "Sarah White",
-//     status: "Ready for Pickup",
-//     pickup: "2023-10-15",
-//   },
-//   {
-//     orderNumber: "007",
-//     customer: "Kevin Lee",
-//     status: "Pending",
-//     pickup: "2023-10-16",
-//   },
-// ];
-
 const topTabs = ["Home", "Kitchen", "Tables"];
 
 const NormalOrder = () => {
@@ -74,7 +29,6 @@ const NormalOrder = () => {
     const fetchOrders = () => {
       getOrder()
         .then((response) => {
-          console.log("Fetched orders:", response);
           setOrdersData(response);
         })
         .catch((error) => {
@@ -100,9 +54,6 @@ const NormalOrder = () => {
   useEffect(() => {
     if (!Array.isArray(ordersData)) return;
     const filteredOrders = ordersData.filter(
-      // ({ orderNumber, customer }) =>
-      //   orderNumber.includes(searchTerm) ||
-      //   customer.toLowerCase().includes(searchTerm.toLowerCase())
       ({ Order_ID, User_ID }) =>
         String(Order_ID).includes(searchTerm) || // Assuming Order_ID is a number
         users
@@ -129,25 +80,22 @@ const NormalOrder = () => {
   }, [searchTerm, ordersData, users]);
 
   const handleStatusChange = (orderId, newStatus) => {
-      // Handle status change logic here (e.g., update the order status in the database)
-      console.log(`Order ID: ${orderId}, New Status: ${newStatus}`);
-      updateOrderStatus(orderId, newStatus)
-        .then((response) => {
-          console.log("Status updated successfully:", response);
-  
-          // Optionally, you can refresh the pre-orders list after updating the status
-          getOrder()
-            .then((response) => {
-              setOrdersData(response);
-            })
-            .catch((error) => {
-              console.error("Error fetching pre-orders:", error);
-            });
-        })
-        .catch((error) => {
-          console.error("Error updating status:", error);
-        });
-    };
+    // Handle status change logic here (e.g., update the order status in the database)
+    updateOrderStatus(orderId, newStatus)
+      .then((response) => {
+        // Optionally, you can refresh the pre-orders list after updating the status
+        getOrder()
+          .then((response) => {
+            setOrdersData(response);
+          })
+          .catch((error) => {
+            console.error("Error fetching pre-orders:", error);
+          });
+      })
+      .catch((error) => {
+        console.error("Error updating status:", error);
+      });
+  };
 
   return (
     <div className="d-flex max-vh-100">
@@ -156,9 +104,6 @@ const NormalOrder = () => {
         <h1 className="my-2">Normal Orders</h1>
 
         <div style={{ maxHeight: "100vh" }}>
-          {/* Page Content */}
-          {/* {activeSidebar === "Normal Orders" && activeTopTab === "Home" && (
-            <> */}
           <input
             type="text"
             className="form-control my-4"
@@ -200,11 +145,7 @@ const NormalOrder = () => {
                   {Array.isArray(filteredOrders) &&
                     filteredOrders.map((order) => (
                       <tr key={order.Order_ID}>
-                        <td>
-                          {/* <a href="#" className="text-decoration-none"> */}
-                          {order.Order_ID}
-                          {/* </a> */}
-                        </td>
+                        <td>{order.Order_ID}</td>
                         <td>
                           {users.find((user) => (user.User_ID = order.User_ID))
                             ?.First_Name +
@@ -238,10 +179,7 @@ const NormalOrder = () => {
                           <select
                             className="form-select"
                             onChange={(e) =>
-                              handleStatusChange(
-                                order.Order_ID,
-                                e.target.value
-                              )
+                              handleStatusChange(order.Order_ID, e.target.value)
                             }
                           >
                             <option value="" disabled selected>
@@ -268,20 +206,6 @@ const NormalOrder = () => {
               </table>
             </div>
           </div>
-          {/* </>
-          )} */}
-
-          {/* Fallback content for other combinations */}
-          {/* {!(activeSidebar === "Normal Orders" && activeTopTab === "Home") && (
-            <div className="bg-white shadow-sm rounded p-5 text-center">
-              <h4>
-                {activeSidebar} - {activeTopTab}
-              </h4>
-              <p className="text-muted">
-                Content for this section is coming soon.
-              </p>
-            </div>
-          )} */}
         </div>
       </div>
     </div>
